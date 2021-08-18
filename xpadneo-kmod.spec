@@ -13,11 +13,14 @@
   %{__mod_compress_install_post}
 
 %define __mod_compress_install_post \
-  find %{buildroot}/lib/modules/ -type f -name '*.ko' | xargs xz;
+  if [ $kernel_version ]; then \
+    find %{buildroot} -type f -name '*.ko' | xargs %{__strip} --strip-debug; \
+    find %{buildroot} -type f -name '*.ko' | xargs xz; \
+  fi
 
 Name:           xpadneo-kmod
 Version:        0.9.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Advanced Linux Driver for Xbox One Wireless Gamepad
 License:        GPLv3
 URL:            https://atar-axis.github.io/xpadneo
@@ -62,5 +65,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Wed Aug 18 2021 Simone Caronni <negativo17@gmail.com> - 0.9.1-2
+- Add module stripping.
+- Fix module compression.
+
 * Mon Aug 16 2021 Simone Caronni <negativo17@gmail.com> - 0.9.1-1
 - First build.
