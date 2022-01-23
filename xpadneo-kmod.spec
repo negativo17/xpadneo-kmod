@@ -1,3 +1,8 @@
+%global commit0 cf392a7c93e05d76b6d3befc5b70e19e894f6823
+%global date 20211203
+%global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
+#global tag %{version}
+
 # buildforkernels macro hint: when you build a new version or a new release
 # that contains bugfixes or other improvements then you must disable the
 # "buildforkernels newest" macro for just that build; immediately after
@@ -20,6 +25,7 @@
   if [ $kernel_version ]; then \
     find %{buildroot} -type f -name '*.ko' | xargs %{__strip} --strip-debug; \
     if [ -f /usr/src/akmods/mok.key ] && [ -f /usr/src/akmods/mok.der ]; then \
+      find %{buildroot} -type f -name '*.ko' | xargs echo; \
       find %{buildroot} -type f -name '*.ko' | xargs -L1 /usr/lib/modules/${kernel_version%%___*}/build/scripts/sign-file %{mok_algo} %{mok_key} %{mok_der}; \
     fi \
     find %{buildroot} -type f -name '*.ko' | xargs xz; \
@@ -27,12 +33,17 @@
 
 Name:           xpadneo-kmod
 Version:        0.9.1
-Release:        3%{?dist}
+Release:        4%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Advanced Linux Driver for Xbox One Wireless Gamepad
 License:        GPLv3
 URL:            https://atar-axis.github.io/xpadneo
 
-Source0:        https://github.com/atar-axis/xpadneo/archive/refs/tags/v%{version}.tar.gz#/xpadneo-%{version}.tar.gz
+%if 0%{?tag:1}
+Source0:        https://github.com/atar-axis/xpadneo/archive/v%{version}.tar.gz#/xpadneo-%{version}.tar.gz
+%else
+Source0:        https://github.com/atar-axis/xpadneo/archive/%{commit0}.tar.gz#/xpadneo-%{shortcommit0}.tar.gz
+%endif
+
 
 # get the needed BuildRequires (in parts depending on what we build for)
 BuildRequires:  kmodtool
@@ -49,7 +60,11 @@ Advanced Linux Driver for Xbox One Wireless Gamepad.
 # print kmodtool output for debugging purposes:
 kmodtool  --target %{_target_cpu}  --repo negativo17.org --kmodname %{name} %{?buildforkernels:--%{buildforkernels}} %{?kernels:--for-kernels "%{?kernels}"} 2>/dev/null
 
-%autosetup -p0 -n xpadneo-%{version}
+%if 0%{?tag:1}
+%autosetup -p1 -n xpadneo-%{version}
+%else
+%autosetup -p1 -n xpadneo-%{commit0}
+%endif
 
 for kernel_version in %{?kernel_versions}; do
     mkdir _kmod_build_${kernel_version%%___*}
@@ -72,6 +87,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Sun Jan 23 2022 Simone Caronni <negativo17@gmail.com> - 0.9.1-4.20211203gitcf392a7
+- Update to latest snapshot.
+
 * Tue Sep 14 2021 Simone Caronni <negativo17@gmail.com> - 0.9.1-3
 - Add automatic signing workaround.
 
