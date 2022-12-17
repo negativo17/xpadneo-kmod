@@ -33,7 +33,7 @@
 
 Name:           xpadneo-kmod
 Version:        0.9.5
-Release:        1%{?dist}
+Release:        1%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Advanced Linux Driver for Xbox One Wireless Gamepad
 License:        GPLv3
 URL:            https://atar-axis.github.io/xpadneo
