@@ -1,7 +1,7 @@
-%global commit0 74ea7c1488f9ccebf3ed6d9aea1319cacb08c625
-%global date 20220430
+%global commit0 13dd267f387d7482cec10fa5012b62120f240e98
+%global date 20230503
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-%global tag %{version}
+#global tag %{version}
 
 # buildforkernels macro hint: when you build a new version or a new release
 # that contains bugfixes or other improvements then you must disable the
