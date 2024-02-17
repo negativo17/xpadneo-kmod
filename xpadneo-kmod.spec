@@ -1,7 +1,7 @@
 %global commit0 bce97bd057ce6fcc30bc53a9deb6c0728d31dd1d
 %global date 20240130
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
-#global tag %{version}
+%global tag %{version}
 
 # Build only the akmod package and no kernel module packages:
 %define buildforkernels akmod
@@ -9,8 +9,8 @@
 %global debug_package %{nil}
 
 Name:           xpadneo-kmod
-Version:        0.9.5
-Release:        4%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
+Version:        0.9.6
+Release:        1%{!?tag:.%{date}git%{shortcommit0}}%{?dist}
 Summary:        Advanced Linux Driver for Xbox One Wireless Gamepad
 License:        GPLv3
 URL:            https://atar-axis.github.io/xpadneo
@@ -64,6 +64,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Sat Feb 17 2024 Simone Caronni <negativo17@gmail.com> - 0.9.6-1
+- Update to final 0.9.6.
+
 * Tue Feb 06 2024 Simone Caronni <negativo17@gmail.com> - 0.9.5-4.20240130gitbce97bd
 - Update to latest snapshot.
 
