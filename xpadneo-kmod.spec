@@ -4,7 +4,7 @@
 %global debug_package %{nil}
 
 Name:           xpadneo-kmod
-Version:        0.10.2
+Version:        0.10.3.1
 Release:        1%{?dist}
 Summary:        Advanced Linux Driver for Xbox One Wireless Gamepad
 License:        GPL-2.0-only
@@ -50,6 +50,9 @@ done
 %{?akmod_install}
 
 %changelog
+* Fri Jul 10 2026 Simone Caronni <negativo17@gmail.com> - 0.10.3.1-1
+- Update to 0.10.3.1.
+
 * Thu Apr 09 2026 Simone Caronni <negativo17@gmail.com> - 0.10.2-1
 - Update to 0.10.2.
 
